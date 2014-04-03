@@ -77,6 +77,7 @@ typedef std::map<const std::string,IIPImage> imageCacheMapType;
 
 
 
+
 /// Structure to hold our session data
 struct Session {
   IIPImage **image;
@@ -85,7 +86,6 @@ struct Session {
   IIPResponse* response;
   Watermark* watermark;
   int loglevel;
-  bool useOpenJPEG;
   std::ofstream* logfile;
   std::map <const std::string, std::string> headers;
 

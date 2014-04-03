@@ -28,9 +28,26 @@
 #include "KakaduImage.h"
 #endif
 
-#ifdef HAVE_OPENJPEG
-#include "OpenJPEGImage.h"
+
+// If necessary, define missing setenv and unsetenv functions
+#ifndef HAVE_SETENV
+static void setenv(char *n, char *v, int x) {
+  char buf[256];
+  snprintf(buf,sizeof(buf),"%s=%s",n,v);
+  putenv(buf);
+}
+static void unsetenv(char *env_name) {
+  extern char **environ;
+  char **cc;
+  int l;
+  l=strlen(env_name);
+  for (cc=environ;*cc!=NULL;cc++) {
+    if (strncmp(env_name,*cc,l)==0 && ((*cc)[l]=='='||(*cc)[l]=='\0')) break;
+  } for (; *cc != NULL; cc++) *cc=cc[1];
+}
 #endif
+
+
 
 using namespace std;
 
@@ -171,15 +188,9 @@ void FIF::run( Session* session, const string& src ){
       if( session->loglevel >= 2 ) *(session->logfile) << "FIF :: TIFF image requested" << endl;
       *session->image = new TPTImage( test );
     }
-#ifdef HAVE_OPENJPEG
-    else if( imtype=="jp2" && session->useOpenJPEG ){
-      if( session->loglevel >= 2 ) *(session->logfile) << "FIF :: JPEG2000 image requested (Using OpenJPEG)" << endl;
-      *session->image = new OpenJPEGImage( test );
-    }
-#endif
 #ifdef HAVE_KAKADU
-    else if( imtype=="jpx" || imtype=="jp2" ){
-      if( session->loglevel >= 2 ) *(session->logfile) << "FIF :: JPEG2000 image requested (Using Kakadu)" << endl;
+    else if( imtype=="jpx" || imtype=="jp2" || imtype=="j2k" ){
+      if( session->loglevel >= 2 ) *(session->logfile) << "FIF :: JPEG2000 image requested" << endl;
       *session->image = new KakaduImage( test );
     }
 #endif
@@ -252,7 +263,17 @@ void FIF::run( Session* session, const string& src ){
       tm mod_t;
       strptime( (session->headers)["HTTP_IF_MODIFIED_SINCE"].c_str(), "%a, %d %b %Y %H:%M:%S GMT", &mod_t );
       time_t t;
-      t = timegm(&mod_t);
+
+      // Use POSIX cross-platform mktime() function to generate a timestamp. However, we need to reset
+      // our timezone temporarily to UTC for this to work properly
+      char *tz = getenv("TZ");
+      setenv("TZ","",1);
+      tzset();
+      t = mktime(&mod_t);
+      if(tz) setenv("TZ", tz, 1);
+      else unsetenv("TZ");
+      tzset();
+
       if( (*session->image)->timestamp <= t ){
 
 	if( session->loglevel >= 2 ){

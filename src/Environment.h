@@ -37,7 +37,9 @@
 #define WATERMARK_OPACITY 1.0
 #define LIBMEMCACHED_SERVERS "localhost"
 #define LIBMEMCACHED_TIMEOUT 86400  // 24 hours
-#define USE_OPENJPEG 0
+#define INTERPOLATION 1
+
+
 
 #include <string>
 
@@ -125,15 +127,6 @@ class Environment {
 
     return layers;
   }
-  
-  static bool getUseOpenJPEG(){
-    char* envpara = getenv( "USE_OPENJPEG" );
-    int value;
-    if( envpara ) value = atoi( envpara );
-    else value = 0;
-    
-    return (value > 0);
-  }
 
 
   static std::string getFileSystemPrefix(){
@@ -210,6 +203,14 @@ class Environment {
   }
 
 
+  static unsigned int getInterpolation(){
+    char* envpara = getenv( "INTERPOLATION" );
+    unsigned int interpolation;
+    if( envpara ) interpolation = atoi( envpara );
+    else interpolation = INTERPOLATION;
+
+    return interpolation;
+  }
 
 
 };

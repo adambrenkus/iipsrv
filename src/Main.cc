@@ -19,7 +19,7 @@
 */
 
 
-//#define DEBUG 0
+
 
 
 #include <fcgiapp.h>
@@ -50,6 +50,12 @@
 #ifdef ENABLE_DL
 #include "DSOImage.h"
 #endif
+
+
+
+
+
+//#define DEBUG 1
 
 
 using namespace std;
@@ -216,10 +222,6 @@ int main( int argc, char *argv[] )
 		       Environment::getWatermarkOpacity(),
 		       Environment::getWatermarkProbability() );
 
-  bool useOpenJPEG = false;
-#ifdef HAVE_OPENJPEG
-    useOpenJPEG = Environment::getUseOpenJPEG();
-#endif
 
   // Print out some information
   if( loglevel >= 1 ){
@@ -228,12 +230,13 @@ int main( int argc, char *argv[] )
     logfile << "Setting default JPEG quality to " << jpeg_quality << endl;
     logfile << "Setting maximum CVT size to " << max_CVT << endl;
     logfile << "Setting 3D file sequence name pattern to '" << filename_pattern << "'" << endl;
-    if( max_layers > 0 ) logfile << "Setting max quality layers (for supported file formats) to " << max_layers << endl;
+    if( max_layers != 0 ){
+      logfile << "Setting max quality layers (for supported file formats) to ";
+      if( max_layers < 0 ) logfile << "all layers" << endl;
+      else logfile << max_layers << endl;
+    }
 #ifdef HAVE_KAKADU
-    if(!useOpenJPEG) logfile << "Setting up JPEG2000 support via Kakadu SDK" << endl;
-#endif
-#ifdef HAVE_OPENJPEG
-    if(useOpenJPEG) logfile << "Setting up JPEG2000 support via OpenJPEG SDK" << endl;
+    logfile << "Setting up JPEG2000 support via Kakadu SDK" << endl;
 #endif
   }
 
@@ -394,7 +397,7 @@ int main( int argc, char *argv[] )
       view.setMaxSize( max_CVT );
       if( loglevel >= 2 ) logfile << "CVT maximum viewport size set to " << max_CVT << endl;
     }
-    if( max_layers > 0 ) view.setMaxLayers( max_layers );
+    if( max_layers != 0 ) view.setMaxLayers( max_layers );
 
 
 
@@ -438,7 +441,6 @@ int main( int argc, char *argv[] )
       session.out = &writer;
       session.watermark = &watermark;
       session.headers.empty();
-      session.useOpenJPEG = useOpenJPEG;
 
       // Get certain HTTP headers, such as if_modified_since and the query_string
       char* header = NULL;
