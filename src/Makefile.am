@@ -21,7 +21,7 @@ if ENABLE_MODULES
 iipsrv_fcgi_LDADD += DSOImage.o
 endif
 
-EXTRA_iipsrv_fcgi_SOURCES = DSOImage.h DSOImage.cc KakaduImage.h KakaduImage.cc Memcached.h Main.cc Open OpenJPEGImage.cc OpenJPEGImage.h
+EXTRA_iipsrv_fcgi_SOURCES = DSOImage.h DSOImage.cc KakaduImage.h KakaduImage.cc Memcached.h Main.cc OpenJPEGImage.h OpenJPEGImage.cc
 
 iipsrv_fcgi_SOURCES = \
 			IIPImage.h \
@@ -40,8 +40,8 @@ iipsrv_fcgi_SOURCES = \
 			IIPResponse.cc \
 			View.h \
 			View.cc \
-			ColourTransforms.h \
-			ColourTransforms.cc \
+			Transforms.h \
+			Transforms.cc \
 			Environment.h \
 			Writer.h \
 			Task.h \

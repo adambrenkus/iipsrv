@@ -58,10 +58,8 @@ noinst_PROGRAMS = iipsrv.fcgi$(EXEEXT)
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
-	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
-	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
-	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.in
+am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
+	$(top_srcdir)/configure.in
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -70,11 +68,10 @@ CONFIG_CLEAN_VPATH_FILES =
 PROGRAMS = $(noinst_PROGRAMS)
 am_iipsrv_fcgi_OBJECTS = IIPImage.$(OBJEXT) TPTImage.$(OBJEXT) \
 	JPEGCompressor.$(OBJEXT) TileManager.$(OBJEXT) \
-	IIPResponse.$(OBJEXT) View.$(OBJEXT) \
-	ColourTransforms.$(OBJEXT) Task.$(OBJEXT) OBJ.$(OBJEXT) \
-	FIF.$(OBJEXT) JTL.$(OBJEXT) TIL.$(OBJEXT) ICC.$(OBJEXT) \
-	CVT.$(OBJEXT) Zoomify.$(OBJEXT) DeepZoom.$(OBJEXT) \
-	SPECTRA.$(OBJEXT) Watermark.$(OBJEXT)
+	IIPResponse.$(OBJEXT) View.$(OBJEXT) Transforms.$(OBJEXT) \
+	Task.$(OBJEXT) OBJ.$(OBJEXT) FIF.$(OBJEXT) JTL.$(OBJEXT) \
+	TIL.$(OBJEXT) ICC.$(OBJEXT) CVT.$(OBJEXT) Zoomify.$(OBJEXT) \
+	DeepZoom.$(OBJEXT) SPECTRA.$(OBJEXT) Watermark.$(OBJEXT)
 iipsrv_fcgi_OBJECTS = $(am_iipsrv_fcgi_OBJECTS)
 iipsrv_fcgi_DEPENDENCIES = Main.o $(am__append_1) $(am__append_2) \
 	$(am__append_3)
@@ -248,7 +245,7 @@ top_srcdir = @top_srcdir@
 AM_LDFLAGS = @LIBFCGI_LDFLAGS@
 iipsrv_fcgi_LDADD = Main.o $(am__append_1) $(am__append_2) \
 	$(am__append_3)
-EXTRA_iipsrv_fcgi_SOURCES = DSOImage.h DSOImage.cc KakaduImage.h KakaduImage.cc Memcached.h Main.cc Open OpenJPEGImage.cc OpenJPEGImage.h
+EXTRA_iipsrv_fcgi_SOURCES = DSOImage.h DSOImage.cc KakaduImage.h KakaduImage.cc Memcached.h Main.cc OpenJPEGImage.h OpenJPEGImage.cc
 iipsrv_fcgi_SOURCES = \
 			IIPImage.h \
 			IIPImage.cc \
@@ -266,8 +263,8 @@ iipsrv_fcgi_SOURCES = \
 			IIPResponse.cc \
 			View.h \
 			View.cc \
-			ColourTransforms.h \
-			ColourTransforms.cc \
+			Transforms.h \
+			Transforms.cc \
 			Environment.h \
 			Writer.h \
 			Task.h \
@@ -338,7 +335,6 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CVT.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ColourTransforms.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/DSOImage.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/DeepZoom.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/FIF.Po@am__quote@
@@ -356,6 +352,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/TPTImage.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Task.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/TileManager.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Transforms.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/View.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Watermark.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Zoomify.Po@am__quote@
