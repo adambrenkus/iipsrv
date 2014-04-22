@@ -175,19 +175,17 @@ void OpenJPEGImage::loadImageInfo( int seq, int ang ) throw(string){
 		#endif
 	}
 	
-	#ifdef DEBUG
-  		if(i > numResolutions){
+	if(i > numResolutions){
+		virtual_levels = i-numResolutions;
+		#ifdef DEBUG
 			logfile << 	"WARNING :: OpenJPEG :: Insufficient resolution levels in JPEG2000 stream. Will generate " << 
-						i - numResolutions << " extra levels dynamically." << endl;
-  		}
-	#endif
-  		
-	logfile << "INFO :: OpenJPEG :: I :: " << i << endl << flush;
-  		
-	if(i > numResolutions) virtual_levels = i-numResolutions;
+						virtual_levels << " extra levels dynamically." << endl;
+		#endif
+		
+	} 
+	
 	numResolutions = i;
   		
-	logfile << "INFO :: OpenJPEG :: virtual_levels :: " << virtual_levels << endl << flush;
 	
 	#ifdef DEBUG
 		logfile << "INFO :: OpenJPEG :: loadImageInfo() :: " << timer.getTime() << " microseconds" << endl << flush;
