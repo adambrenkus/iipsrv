@@ -149,7 +149,7 @@ void OpenJPEGImage::loadImageInfo( int seq, int ang ) throw(string){
 		    	throw string("ERROR :: OpenJPEG :: loadImageInfo() :: Could not handle that image");
 		
 	switch((channels = l_image->numcomps)){
-		case 3: colourspace = GREYSCALE; break;
+		case 3: colourspace = sRGB; break;
 		case 1: colourspace = GREYSCALE; break;
 		case 8: colourspace = CIELAB; break;
 		default: throw string("ERROR :: OpenJPEG :: Unsupported color space");
