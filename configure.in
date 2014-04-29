@@ -186,7 +186,7 @@ AM_CONDITIONAL(ENABLE_OPENJPEG, test x$openjpeg = xtrue)
 
 if test "$openjpeg" = "true"; then
 	AC_DEFINE(HAVE_OPENJPEG)
-	INCLUDES="$INCLUDES -I$openjpeg_path/openjpeg_path/src/lib/openjp2/"
+	INCLUDES="$INCLUDES -I$openjpeg_path/src/lib/openjp2/"
 	EXTRAS="OpenJPEGImage.o"
 	LIBS="$LIBS $openjpeg_path/bin/libopenjp2.so -lpthread"
 fi
