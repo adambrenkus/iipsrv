@@ -5,7 +5,7 @@
 #include <cstdio>
 
 #include <stdio.h> // openjpeg.h needs FILE* 
-#include <openjpeg-2.0/openjpeg.h>
+#include <openjpeg.h>
 #include <iostream>
 #include <fstream>
 
