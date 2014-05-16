@@ -422,9 +422,9 @@ void OpenJPEGImage::process(unsigned int tw, unsigned int th, unsigned int xoffs
 			for(color_comp = 0; color_comp < channels; ++color_comp){ // For each color component in that pixel
 			    OPJ_INT32 int_data = out_image->comps[color_comp].data[xy_position]; // Get component data from opj_image structure which contains decoded tile/region
 					p_buffer[buffer_write_pos+color_comp] = int_data & 0x000000ff; // Copy first byte from the integer we saved to buffer
-					//p_buffer[xy_position+(color_comp*4)+1] = (int_data & 0x0000ff00) >> 8;
-					//p_buffer[xy_position+(color_comp*4)+2] = (int_data & 0x00ff0000) >> 16;
-					//p_buffer[xy_position+(color_comp*4)+3] = (int_data & 0xff000000) >> 24;
+					//(int_data & 0x0000ff00) >> 8; --second byte
+					//(int_data & 0x00ff0000) >> 16; --third byte
+					//(int_data & 0xff000000) >> 24; --fourth byte
 					// Just a first byte from OPJ integer is needed for 8-bit depth images
 			}
 			buffer_write_pos += channels; // Increment write position indicator for each pixel's component we have written to the buffer
