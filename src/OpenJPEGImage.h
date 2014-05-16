@@ -13,7 +13,7 @@
 
 extern std::ofstream logfile;
 
-// Image class for OpenJPEG JPEG2000 Images: Inherits from IIPImage. Uses the OpenJPEG library.
+// Image class for JPEG 2000 Images: Inherits from IIPImage. Uses the OpenJPEG library.
 class OpenJPEGImage : public IIPImage {
 
 private:
@@ -23,25 +23,25 @@ private:
 	unsigned int raster_width; // Image size
 	unsigned int raster_height;
 	
-	unsigned int image_tile_width; // Tile size in the image
+	unsigned int image_tile_width; // Tile size defined in the image
 	unsigned int image_tile_height;
 	
 	int sgnd; // Whether the data are signed
 	
 	unsigned int max_layers; // Quality layers
 	
-	unsigned int virtual_levels;
+	unsigned int virtual_levels; // How many virtual levels we need to generate
 
 	/**
 		 Main processing function
-      	\param tw		width of region
-      	\param th		height of region
-      	\param xoffset	x coordinate
-      	\param yoffset	y coordinate
+      		\param tw		width of region
+      		\param th		height of region
+      		\param xoffset		x coordinate
+      		\param yoffset		y coordinate
 		\param res		resolution
-      	\param layers	number of quality levels to decode
-      	\param tile		specific tile to decode (-1 if deconding a region)
-      	\param d		buffer to fill
+      		\param layers		number of quality levels to decode
+      		\param tile		specific tile to decode (-1 if deconding a region)
+      		\param d		buffer to fill
 	*/
 	void process(unsigned int tw, unsigned int th, unsigned int xoffset, unsigned int yoffset, unsigned int res, int layers, int tile, void* d) throw (std::string);
 
@@ -49,13 +49,12 @@ public:
 
 	/** 
 		Constructor
-		\param path		image path
 	*/
 	OpenJPEGImage() : IIPImage(){ 
 		image_tile_width = 0; image_tile_height = 0;
 		tile_width = TILESIZE; tile_height = TILESIZE;
-    	raster_width = 0; raster_height = 0;
-    	sgnd = 0; numResolutions = 0; virtual_levels = 0;
+    		raster_width = 0; raster_height = 0;
+    		sgnd = 0; numResolutions = 0; virtual_levels = 0;
 	};
 
 	/** 
@@ -65,19 +64,19 @@ public:
 	OpenJPEGImage(const std::string& path) : IIPImage(path){
 		image_tile_width = 0; image_tile_height = 0;
 		tile_width = TILESIZE; tile_height = TILESIZE;
-    	raster_width = 0; raster_height = 0;
-    	sgnd = 0; numResolutions = 0; virtual_levels = 0;
+    		raster_width = 0; raster_height = 0;
+    		sgnd = 0; numResolutions = 0; virtual_levels = 0;
 	};
 
 	/** 
 		Copy Constructor
-		\param image	IIPImage object
+		\param image		IIPImage object
 	*/
-	OpenJPEGImage(const IIPImage& image): IIPImage(image) {
-		image_tile_width = 0; image_tile_height = 0;
+	OpenJPEGImage(const OpenJPEGImage& image): IIPImage(image) {
+		image_tile_width = image->image_tile_width; image_tile_height = image->image_tile_height;
 		tile_width = TILESIZE; tile_height = TILESIZE;
-    	raster_width = 0; raster_height = 0;
-		sgnd = 0; numResolutions = 0; virtual_levels = 0;
+    		raster_width = image->raster_width; raster_height = image->raster_height;
+		sgnd = image->sgnd; numResolutions = image->numResolutions; virtual_levels = image->virtual_levels;
 	};
 
 	/** 
@@ -113,7 +112,7 @@ public:
     RawTile getTile(int x, int y, unsigned int r, int l, unsigned int t) throw (std::string);
 
 	/** 
-		Overloaded function for returning a region for a given angle and resolution
+		Overloaded function for returning a region from image
  		\param ha	horizontal angle
 		\param va	vertical angle
 		\param r	resolution
