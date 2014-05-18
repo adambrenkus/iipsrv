@@ -340,8 +340,8 @@ void OpenJPEGImage::process(unsigned int tw, unsigned int th, unsigned int xoffs
 		// Once we enter this scope it means we need to provide a virtual resolution
 		// Factor 2 means half of the smallest original resolution, factor 4 means quarter of it and so on...
 		factor = 2 * (virtual_levels - res); // Can not be negative or zero - see above condition. Is always >= 2
-		xoffset = 0; // there is no offset, virtual resolution always fits whole tile - that is the nature of creating these resolutions
-		yoffset = 0;
+		xoffset *= factor; // there is no offset, virtual resolution always fits whole tile - that is the nature of creating these resolutions
+		yoffset *= factor;
 		tw *= factor; // We need to decode bigger region than requested. We are going to downsample it later, thus gain the desired size again
 		th *= factor;
 		vipsres = numResolutions - 1 - virtual_levels; // Set our resolution level back to the smallest original resolution
@@ -416,7 +416,7 @@ void OpenJPEGImage::process(unsigned int tw, unsigned int th, unsigned int xoffs
 	unsigned int buffer_write_pos = 0; // Write position indicator
 	unsigned int h_pos = 0; unsigned int w_pos; unsigned int xy_position = 0; // Another position indicators
 	unsigned int color_comp; // Current color component indicator
-	for(; h_pos < th; h_pos += factor){ // Vertical cycle - takes care of pixel columens
+	for(; h_pos < th; h_pos += factor){ // Vertical cycle - takes care of pixel columns
 		for(w_pos = 0; w_pos < tw; w_pos += factor){ // Horizontal cycle - takes care of pixel rows
 			xy_position = (tw*h_pos) + w_pos; // Calculate exact position (pixel index)
 			for(color_comp = 0; color_comp < channels; ++color_comp){ // For each color component in that pixel
