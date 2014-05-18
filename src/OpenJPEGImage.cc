@@ -340,7 +340,7 @@ void OpenJPEGImage::process(unsigned int tw, unsigned int th, unsigned int xoffs
 		// Once we enter this scope it means we need to provide a virtual resolution
 		// Factor 2 means half of the smallest original resolution, factor 4 means quarter of it and so on...
 		factor = 2 * (virtual_levels - res); // Can not be negative or zero - see above condition. Is always >= 2
-		xoffset *= factor; // there is no offset, virtual resolution always fits whole tile - that is the nature of creating these resolutions
+		xoffset *= factor; // Take care of offsets as well
 		yoffset *= factor;
 		tw *= factor; // We need to decode bigger region than requested. We are going to downsample it later, thus gain the desired size again
 		th *= factor;
