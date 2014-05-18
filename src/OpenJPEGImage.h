@@ -72,11 +72,10 @@ public:
 		Copy Constructor
 		\param image		IIPImage object
 	*/
-	OpenJPEGImage(const OpenJPEGImage& image): IIPImage(image) {
-		image_tile_width = image->image_tile_width; image_tile_height = image->image_tile_height;
+	OpenJPEGImage(const IIPImage& image): IIPImage(image) {
 		tile_width = TILESIZE; tile_height = TILESIZE;
-    		raster_width = image->raster_width; raster_height = image->raster_height;
-		sgnd = image->sgnd; numResolutions = image->numResolutions; virtual_levels = image->virtual_levels;
+		numResolutions = image.numResolutions;
+		virtual_levels = 0;
 	};
 
 	/** 
